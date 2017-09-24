@@ -1,0 +1,28 @@
+{
+  "name": "budget-application",
+  "version": "1.0.0",
+  "description": "Budget Application",
+  "main": "index.js",
+  "engines": {
+    "node": "8.5.0",
+    "npm": "5.3.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mwarnsley/Budget-Application.git"
+  },
+  "author": "Marcus Warnsley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mwarnsley/Budget-Application/issues"
+  },
+  "homepage": "https://github.com/mwarnsley/Budget-Application#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "nodemon": "^1.12.1"
+  }
+}
