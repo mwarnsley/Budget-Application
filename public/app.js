@@ -1,3 +1,10 @@
+/*
+ * This is the controllers file that adds the controllers being used based on the Modular Pattern
+ * budgetController handles all of the actions pertaining to the budget of the app
+ * UIController handles all of the actions that pertain to the UI part of the app
+ * controller itself is the global controller that used the UIController and the budgetController as a whole
+ */
+
 // The Budget Controller
 var budgetController = (function() {
   // Creating a expense constructor for the expense objects
@@ -87,6 +94,20 @@ var UIController = (function() {
       // Insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
+    clearFields: function() {
+      var fields, fieldsArr;
+      fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+
+      fieldsArr = Array.prototype.slice.call(fields);
+
+      // Loop through the fields and clear the fields
+      fieldsArr.forEach(function(field) {
+        field.value = '';
+      });
+
+      // Set the focus back to the description input
+      fieldsArr[0].focus();
+    },
     getDOMstrings: function() {
       return DOMstrings;
     },
@@ -114,8 +135,10 @@ var controller = (function(budgetCtrl, UICtrl) {
     newItem = budgetCtrl.addItem(input.type, input.description, input.value);
     // 3. Add the new item to the UI
     UICtrl.addListItem(newItem, input.type);
-    // 4. Calculate the budget
-    // 5. Display the budget on the UI
+    // 4. Clear the fields
+    UICtrl.clearFields();
+    // 5. Calculate the budget
+    // 6. Display the budget on the UI
   };
 
   return {
