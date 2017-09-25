@@ -10,10 +10,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Using express middleware
+// Using express middleware, specifically to add in the static files from the public folder
 app.use(express.static('public'));
 
 // Connecting the app to listen on the port specified
-app.listen(PORT, () => {
-  console.log(`App is listening on port: ${PORT}`);
-});
+app.listen(PORT);
