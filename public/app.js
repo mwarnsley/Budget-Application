@@ -62,6 +62,20 @@ var budgetController = (function() {
       // Return the new element
       return newItem;
     },
+    deleteItem: function(type, id) {
+      var ids, index;
+      console.log(type, id);
+      // Loop through all elements of the income and expenses array
+      ids = data.allItems[type].map(function(item) {
+        return item.id;
+      });
+
+      index = ids.indexOf(id);
+
+      if (index !== -1) {
+        data.allItems[type].splice(index, 1);
+      }
+    },
     calculateBudget: function() {
       // Calculate total income and expenses
       calculateTotal('exp');
@@ -124,11 +138,11 @@ var UIController = (function() {
       if (type === 'inc') {
         element = DOMstrings.incomeContainer;
         html =
-          '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       } else if (type === 'exp') {
         element = DOMstrings.expensesContainer;
         html =
-          '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       }
 
       // Replace the placeholder text with actual data that we receive from obj
@@ -233,9 +247,10 @@ var controller = (function(budgetCtrl, UICtrl) {
       type = splitID[0];
 
       // The second element of the split array is the id
-      ID = splitID[1];
+      ID = +splitID[1];
 
       // 1. Delete the item from the data structure
+      budgetCtrl.deleteItem(type, ID);
 
       // 2. Delete the item from the UI
 
