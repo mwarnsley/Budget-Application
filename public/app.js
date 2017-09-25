@@ -154,6 +154,7 @@ var UIController = (function() {
     container: '.container',
     expensesPercLabel: '.item__percentage',
     dateLabel: '.budget__title--month',
+    inputBtn: '.add__btn',
   };
   var formatNumber = function(num, type) {
     var numSplit, int, dec, sign;
@@ -177,6 +178,12 @@ var UIController = (function() {
     sign = type === 'exp' ? '-' : '+';
 
     return sign + ' ' + int + '.' + dec;
+  };
+  var nodeListForEach = function(list, callback) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      callback(list[i], i);
+    }
   };
   return {
     getInput: function() {
@@ -242,17 +249,10 @@ var UIController = (function() {
       }
     },
     displayPercentages: function(percentages) {
-      var fields, nodeListForEach;
+      var fields;
 
       fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
 
-      // Writing our own for each function for the node list
-      nodeListForEach = function(list, callback) {
-        var i;
-        for (i = 0; i < list.length; i++) {
-          callback(list[i], i);
-        }
-      };
       // Calling the nodlist function that we have created to use
       nodeListForEach(fields, function(item, index) {
         if (percentages[index] > 0) {
@@ -292,6 +292,19 @@ var UIController = (function() {
 
       document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
     },
+    changedType: function() {
+      var fields;
+
+      fields = document.querySelectorAll(
+        DOMstrings.inputType + ', ' + DOMstrings.inputDescription + ',' + DOMstrings.inputValue
+      );
+
+      nodeListForEach(fields, function(item) {
+        item.classList.toggle('red-focus');
+      });
+
+      document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+    },
     getDOMstrings: function() {
       return DOMstrings;
     },
@@ -313,6 +326,8 @@ var controller = (function(budgetCtrl, UICtrl) {
     });
 
     document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+    document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
   };
   // Setting up the update budget function
   var updateBudget = function() {
