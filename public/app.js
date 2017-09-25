@@ -1,3 +1,4 @@
+'use strict';
 /*
  * This is the controllers file that adds the controllers being used based on the Modular Pattern
  * budgetController handles all of the actions pertaining to the budget of the app
@@ -19,6 +20,7 @@ var budgetController = (function() {
     this.description = description;
     this.value = value;
   };
+  // Creating the function to calculate the total
   var calculateTotal = function(type) {
     var sum = 0;
 
@@ -153,6 +155,12 @@ var UIController = (function() {
       // Insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
+    deleteListItem: function(selectorID) {
+      // Grab the element by ID that we are going to be deleting
+      var el = document.getElementById(selectorID);
+      // Grab the parent node of the element and delete the child since we can't remove a parent element
+      el.parentNode.removeChild(el);
+    },
     clearFields: function() {
       var fields, fieldsArr;
       fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
@@ -185,6 +193,7 @@ var UIController = (function() {
 
 // The Global Controller passing in the Budget and UI Controllers
 var controller = (function(budgetCtrl, UICtrl) {
+  // Setting up the Event listeners function
   var setupEventListeners = () => {
     var DOM = UICtrl.getDOMstrings();
 
@@ -198,6 +207,7 @@ var controller = (function(budgetCtrl, UICtrl) {
 
     document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
   };
+  // Setting up the update budget function
   var updateBudget = function() {
     var budget;
     // 1. Calculate the budget
@@ -209,6 +219,7 @@ var controller = (function(budgetCtrl, UICtrl) {
     // 3. Display the budget on the UI
     UICtrl.displayBudget(budget);
   };
+  // Setting up the function to add an item
   var ctrlAddItem = function() {
     var input, newItem;
 
@@ -231,7 +242,7 @@ var controller = (function(budgetCtrl, UICtrl) {
       updateBudget();
     }
   };
-
+  // Setting up the function for deleting an item
   var ctrlDeleteItem = function(event) {
     var itemID, splitID, type, ID;
 
@@ -253,8 +264,10 @@ var controller = (function(budgetCtrl, UICtrl) {
       budgetCtrl.deleteItem(type, ID);
 
       // 2. Delete the item from the UI
+      UICtrl.deleteListItem(itemID);
 
       // 3. Update and show the new budget
+      updateBudget();
     }
   };
 
