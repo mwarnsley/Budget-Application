@@ -189,20 +189,15 @@ body {
 }
 
 /***** LISTS *****/
-.container {
-  width: 1000px;
-  margin: 60px auto;
+.inc-exp-container {
+  margin: auto;
+  max-width: 850px;
 }
 
-.income {
-  float: left;
-  width: 475px;
-  margin-right: 50px;
-}
-
+.income,
 .expenses {
   float: left;
-  width: 475px;
+  width: 100%;
 }
 
 h2 {
